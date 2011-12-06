@@ -210,12 +210,7 @@ Ext.setup({
         } else {
             Ext.apply(formBase, {
                 autoRender: true,
-                floating: true,
-                modal: true,
-                centered: true,
-                hideOnMaskTap: false,
-                height: 385,
-                width: 480
+                fullscreen:true,
             });
         }
         
