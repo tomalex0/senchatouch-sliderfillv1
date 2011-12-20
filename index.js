@@ -1,88 +1,67 @@
-/**
- * Form slider over ride to implement background fill feature.
- */
-Ext.override(Ext.form.Slider,{
-    additionalWidth : 8,
-    initComponent: function() {
-	this.tabIndex = -1;
-	if (this.increment == 0) {
-	    this.increment = 1;
-	}
-	this.increment = Math.abs(this.increment);
-	//TODO: This will be removed once multi-thumb support is in place - at that point a 'values' config will be accepted
-	//to create the multiple thumbs
-	this.values = [this.value];
+
+Ext.plugins.SliderFill = Ext.extend(Ext.util.Observable, {
+    init: function(slider) {
+	var me = this;
+	this.slider = slider;
+	Ext.DomHelper.append('cssdiv',{tag: 'style', id: 'dynamic-'+this.slider.id});
 	
-	Ext.form.Slider.superclass.initComponent.apply(this, arguments);
-	if (this.thumbs == undefined) {
-	    var thumbs = [],
-		values = this.values,
-		length = values.length,
-		i,
-		Thumb = this.getThumbClass();
-	    for (i = 0; i < length; i++) {
-		thumbs[thumbs.length] = new Thumb({
-		    value: values[i],
-		    slider: this,
-		    listeners: {
-			scope  : this,
-			drag   : this.onDrag,
-			dragend: this.onThumbDragEnd
-		    }
-		});
-	    }
-	    this.thumbs = thumbs;
-	}
-	Ext.DomHelper.append('cssdiv',{tag: 'style', id: 'dynamic-'+this.id});
-    },
-    /**
-    * @private
-    * Fires drag events so the user can interact.
-    */
-    onDrag: function(draggable){
-       
-       var value = this.getThumbValue(draggable);
-       this.fillSlider(value);
-       this.fireEvent('drag', this, draggable.thumb, this.constrain(value));
+	this.mon(slider, 'afterrender',function(slider){
+	    this.onSliderRender(slider);
+	}, this);
+	
+	this.mon(slider, 'change',function(slider,thumb,newvalue,oldvalue){
+	    this.fillSlider(newvalue);
+	}, this);
+	
+	this.mon(slider, 'drag',function(slider,thumb,newvalue){
+	    this.fillSlider(newvalue);
+	}, this);
+	
+	this.mon(slider,'orientationchange',function(slider){
+	    Ext.defer(function(){
+			me.fillSlider(slider.getValue())
+	    },100);
+	},this);
+	
+	
+	
     },
     fillSlider:function(value){
-	if (this.disabled) {
+	if (this.slider.disabled) {
 	    return false;
 	}
-	var newpixel = parseFloat(this.getPixelValue(this.constrain(value), this.getThumb())) + this.additionalWidth;
-	Ext.get('dynamic-'+this.id).dom.innerText = '#'+this.id+' .x-input-slider::after{ width: '+Math.round(newpixel)+'px;}';
+	var newpixel = parseFloat(this.getSlidePixelValue(this.slider.constrain(value), this.slider.getThumb()));
+	Ext.get('dynamic-'+this.slider.id).dom.innerText = '#'+this.slider.id+' .x-input-slider::after{ width: '+Math.round(newpixel)+'px;}';
+	this.updateSliderSize(this.slider);
+	
     },
-    setValue: function(value, animationDuration, moveThumb) {
-	if (typeof moveThumb == 'undefined') {
-	    moveThumb = true;
-	}
-
-	moveThumb = !!moveThumb;
-
-	//TODO: this should accept a second argument referencing which thumb to move
-	var thumb    = this.getThumb(),
-	    oldValue = thumb.getValue(),
-	    newValue = this.constrain(value);
-	if (this.fireEvent('beforechange', this, thumb, newValue, oldValue) !== false) {
-	    if (moveThumb) {
-		this.moveThumb(thumb, this.getPixelValue(newValue, thumb), animationDuration);
-	    }
-	    thumb.setValue(newValue);
-	    this.doComponentLayout();
-	    this.fireEvent('change', this, thumb, newValue, oldValue);
-	    this.fillSlider(value);
-	}
-	return this;
-    },
-    getPixelValue: function(value, thumb) {
-	var trackWidth = thumb.dragObj.offsetBoundary.right + this.additionalWidth,
-	    range = this.maxValue - this.minValue,
+    getSlidePixelValue: function(value, thumb) {
+	var slider = this.slider;
+	var trackWidth = thumb.dragObj.offsetBoundary.right ,
+	    range = slider.maxValue - slider.minValue,
 	    ratio;
-	this.trackWidth = (trackWidth > 0) ? trackWidth : this.trackWidth;
-	ratio = this.trackWidth / range;
-	return (ratio * (value - this.minValue));
+	   
+	slider.trackWidth = (trackWidth > 0) ? trackWidth : slider.trackWidth;
+	ratio = slider.trackWidth / range;
+	return (ratio * (value - slider.minValue));
+    },
+    onSliderRender : function(slider){
+	this.slider = slider;
+	console.log(slider);
+	this.slider_fill_id = Ext.id(),
+	    slidermaxwidth =  this.getSlidePixelValue(this.slider.maxValue, this.slider.getThumb());
+	this.slider.addCls('x-slider-fill-comp');
+	Ext.DomHelper.append(this.slider.fieldEl, {tag: 'div', id: this.slider_fill_id, cls: 'x-slider-fill' , style : 'width:'+slidermaxwidth+'px;'});
+    },
+    updateSliderSize : function(slider){
+	var slidermaxwidth =  this.getSlidePixelValue(slider.maxValue, slider.getThumb());
+	if(Ext.get(this.slider_fill_id)){
+	    Ext.get(this.slider_fill_id).setStyle({width : slidermaxwidth+'px'});
+	}
+	
     }
 });
+Ext.preg('sliderfill', Ext.plugins.SliderFill);
 
 Ext.setup({
     icon: 'icon.png',
@@ -93,38 +72,12 @@ Ext.setup({
 
         var form;
         
-        Ext.regModel('User', {
+       Ext.regModel('User', {
             fields: [
-                {name: 'name',     type: 'string'},
-                {name: 'password', type: 'password'},
-                {name: 'email',    type: 'string'},
-                {name: 'url',      type: 'string'},
-                {name: 'rank',     type: 'string'},
-                {name: 'enable',   type: 'boolean'},
-                {name: 'cool',     type: 'boolean'},
-                {name: 'color',    type: 'string'},
-                {name: 'team',     type: 'string'},
-                {name: 'secret',   type: 'boolean'}
+                {name: 'height',     type: 'int'},
+                {name: 'weight', type: 'int'},
+                {name: 'single_slider',    type: 'int'}
             ]
-        });
-        
-         Ext.regModel('Ranks', {
-            fields: [
-                {name: 'rank',     type: 'string'},
-                {name: 'title',    type: 'stringExt.DataView.override({'}
-            ]
-         });
-        
-        var ranksStore = new Ext.data.JsonStore({
-           data : [
-                { rank : 'master',  title : 'Master'},
-                { rank : 'padawan', title : 'Student'},
-                { rank : 'teacher', title : 'Instructor'},
-                { rank : 'aid',     title : 'Assistant'}
-           ],
-           model : 'Ranks',
-           autoLoad : true,
-           autoDestroy : true
         });
         
         var formBase = {
@@ -142,15 +95,29 @@ Ext.setup({
                     },
                     items: [{
                         xtype: 'sliderfield',
+			plugins : [{
+			    ptype: 'sliderfill'
+			}],
                         name : 'height',
                         label: 'Height'
+                    },{
+                        xtype: 'sliderfield',
+			name : 'weight',
+                        label: 'Weight'
                     }]
                 },{
                     xtype: 'fieldset',
                     title: 'Single Slider (in fieldset)',
+		    
+		    
                     items: [{
                         xtype: 'sliderfield',
-                        name: 'single_slider',
+			name: 'single_slider',
+			cls : 'hotred',
+			id : 'hotred',
+			plugins : [{
+			    ptype: 'sliderfill'
+			}],
                         value : 100
                     }]
                 }
@@ -174,18 +141,9 @@ Ext.setup({
                             ui: 'round',
                             handler: function() {
                                 formBase.user = Ext.ModelMgr.create({
-                                    'name'    : 'Akura',
-                                    'password': 'secret',
-                                    'email'   : 'saru@sencha.com',
-                                    'url'     : 'http://sencha.com',
-                                    'single_slider': 20,
-                                    'enable'  : 1,
-                                    'cool'    : true,
-                                    'team'    : 'redteam',
-                                    'color'   : 'blue',
-                                    'rank'    : 'padawan',
-                                    'secret'  : true,
-                                    'bio'     : 'Learned the hard way !'
+                                    'height'    : 50,
+                                    'weight': 20,
+                                    'single_slider'   : 80
                                 }, 'User');
         
                                 form.loadModel(formBase.user);

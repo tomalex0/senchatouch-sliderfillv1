@@ -10,37 +10,46 @@
     <div id="cssdiv">
         
     </div>    
-<style type="text/css">	
+<style type="text/css">
 
-
-.x-input-slider.x-slider {
-    background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #C4C4C4), color-stop(10%, #D0D0D0), color-stop(65%, #DDD), color-stop(100%, #DEDEDE)) !important;
-    height:0.8em !important;
-    margin:0.925em !important;
+/**
+ * Default background slider config
+ */
+.x-slider-fill{
+    margin:0.925em;
+    position:absolute;
+    height:0.8em;
+    -webkit-border-radius:0.4em;
     border-radius:0.4em;
-    margin-right: 1.3em !important;
-}
-.x-input-slider::after {
-    margin: 0 0.1em !important;
-    top :0em !important;
-    background-image:-webkit-gradient(linear, left top ,left bottom, from(#0A3A86), color-stop(.5, #4C8DE7), color-stop(.95, #6BABF5), to(#0A3A86)) !important;
-}
-.x-thumb::before {
-    top :-0.5em !important;
-    left: 0em !important;
-    right:-0.5em !important;
+    margin-top:0.75em !important;
+    background-color: #DDD;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #C4C4C4), color-stop(10%, #D0D0D0), color-stop(65%, #DDD), color-stop(100%, #DEDEDE));
+    background-image: linear-gradient(#C4C4C4,#D0D0D0 10%,#DDD 65%,#DEDEDE);
 }
 
+/**
+ * Default Slider Fill color
+ */
+.x-slider-fill-comp .x-input-slider::after {
+    background-image:-webkit-gradient(linear, left top ,left bottom, from(#0A3A86), color-stop(.5, #4C8DE7), color-stop(.95, #6BABF5), to(#0A3A86));
+}
 
-/*
-.x-input-slider.x-slider {
-    background-image:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #C4C4C4), color-stop(10%, #D0D0D0), color-stop(65%, #DDD), color-stop(100%, #DEDEDE)) !important;
-    border-radius:0.4em;
+/**
+ * To change background fill color when thumb is moved or value is set
+ */
+.hotred.x-slider-fill-comp .x-input-slider::after {
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #FDA397), color-stop(2%, #FB3D23), color-stop(100%, #D41C03));
+    background-image: linear-gradient(#FDA397,#FB3D23 2%,#D41C03);
 }
-.x-input-slider::after {
-    background-image:-webkit-gradient(linear, left top ,left bottom, from(#0A3A86), color-stop(.5, #4C8DE7), color-stop(.95, #6BABF5), to(#0A3A86)) !important;
+
+/**
+ * To change default background color of slider
+ */
+.hotred .x-slider-fill{
+    background-color: #62A155;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #BCD9B6), color-stop(2%, #76B06A), color-stop(100%, #548A49));
+    background-image: linear-gradient(#BCD9B6,#76B06A 2%,#548A49);
 }
-*/
 
 </style>
 </head>
