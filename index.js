@@ -3,62 +3,37 @@ Ext.plugins.SliderFill = Ext.extend(Ext.util.Observable, {
     init: function(slider) {
 	var me = this;
 	this.slider = slider;
-	Ext.DomHelper.append('cssdiv',{tag: 'style', id: 'dynamic-'+this.slider.id});
 	
-	this.mon(slider, 'afterrender',function(slider){
-	    this.onSliderRender(slider);
-	}, this);
+	me.mon(slider, 'afterrender',function(slider){
+	    me.onSliderRender(slider);
+	});
 	
-	this.mon(slider, 'change',function(slider,thumb,newvalue,oldvalue){
-	    this.fillSlider(newvalue);
-	}, this);
+	me.mon(slider, 'drag',function(slider,thumb,newvalue){
+	    me.fillSlider(newvalue);
+	});
 	
-	this.mon(slider, 'drag',function(slider,thumb,newvalue){
-	    this.fillSlider(newvalue);
-	}, this);
-	
-	this.mon(slider,'orientationchange',function(slider){
+	me.mon(slider,'orientationchange',function(slider){
 	    Ext.defer(function(){
-			me.fillSlider(slider.getValue())
+		me.fillSlider(slider.getValue());
 	    },100);
-	},this);
-	
-	
+	});
 	
     },
     fillSlider:function(value){
 	if (this.slider.disabled) {
 	    return false;
 	}
-	var newpixel = parseFloat(this.getSlidePixelValue(this.slider.constrain(value), this.slider.getThumb()));
-	Ext.get('dynamic-'+this.slider.id).dom.innerText = '#'+this.slider.id+' .x-input-slider::after{ width: '+Math.round(newpixel)+'px;}';
-	this.updateSliderSize(this.slider);
-	
-    },
-    getSlidePixelValue: function(value, thumb) {
-	var slider = this.slider;
-	var trackWidth = thumb.dragObj.offsetBoundary.right ,
-	    range = slider.maxValue - slider.minValue,
-	    ratio;
-	   
-	slider.trackWidth = (trackWidth > 0) ? trackWidth : slider.trackWidth;
-	ratio = slider.trackWidth / range;
-	return (ratio * (value - slider.minValue));
+	var newpixel = parseFloat(this.slider.getPixelValue(this.slider.constrain(value), this.slider.getThumb()));
+	Ext.get(this.slider_fill_id).setStyle({width : Math.round(newpixel)+'px'});
     },
     onSliderRender : function(slider){
 	this.slider = slider;
-	console.log(slider);
-	this.slider_fill_id = Ext.id(),
-	    slidermaxwidth =  this.getSlidePixelValue(this.slider.maxValue, this.slider.getThumb());
-	this.slider.addCls('x-slider-fill-comp');
-	Ext.DomHelper.append(this.slider.fieldEl, {tag: 'div', id: this.slider_fill_id, cls: 'x-slider-fill' , style : 'width:'+slidermaxwidth+'px;'});
-    },
-    updateSliderSize : function(slider){
-	var slidermaxwidth =  this.getSlidePixelValue(slider.maxValue, slider.getThumb());
-	if(Ext.get(this.slider_fill_id)){
-	    Ext.get(this.slider_fill_id).setStyle({width : slidermaxwidth+'px'});
-	}
-	
+	this.slider_fill_id = Ext.id();
+	Ext.DomHelper.append(this.slider.fieldEl, {tag: 'div', id: this.slider_fill_id, cls: 'x-slider-fill' });
+	this.fillSlider(slider.getValue());
+	this.mon(slider, 'change',function(slider,thumb,newvalue,oldvalue){
+	    this.fillSlider(newvalue);
+	}, this);
     }
 });
 Ext.preg('sliderfill', Ext.plugins.SliderFill);
