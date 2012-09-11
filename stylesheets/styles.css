@@ -1012,7 +1012,7 @@ footer {
   left:60%
 }
 header{
-  background: #212121;
+  background: #333;
 }
 header h1 {
   text-shadow: #111 0px 0px 10px;
@@ -1033,8 +1033,9 @@ body{
   background: #F2F2F2;
 }
 #banner .button:hover {
-  background:#212121;
+  background:#333;
   color:white;
+  border:none;
 }
 #banner .button:hover strong {
   color:white;
