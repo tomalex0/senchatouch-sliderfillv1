@@ -1024,11 +1024,18 @@ header h1 {
 }
 #banner .fork, #banner ul li a.button  {
   background:white;
-  border-color:#6ac0ff;
+  border:none;
 }
 #banner .downloads span{
   color:white;
 }
 body{
   background: #F2F2F2;
+}
+#banner .button:hover {
+  background:#212121;
+  color:white;
+}
+#banner .button:hover strong {
+  color:white;
 }
