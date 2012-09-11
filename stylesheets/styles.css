@@ -1008,3 +1008,27 @@ footer {
     width: auto;
   }
 }
+#banner .demo{
+  left:60%
+}
+header{
+  background: #212121;
+}
+header h1 {
+  text-shadow: #111 0px 0px 10px;
+}
+#banner {
+  border:none;
+  background: #007EDF;
+  /*background: url(../images/background.png) #4276B6;*/
+}
+#banner .fork, #banner ul li a.button  {
+  background:white;
+  border-color:#6ac0ff;
+}
+#banner .downloads span{
+  color:white;
+}
+body{
+  background: #F2F2F2;
+}

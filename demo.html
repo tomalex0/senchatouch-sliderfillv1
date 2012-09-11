@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+    <title>Forms</title>
+    <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-1.1.1/resources/css/sencha-touch.css" type="text/css">
+    <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-1.1.1/sencha-touch-debug.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/tomalex0/SenchaTouch-v1-SliderFill/master/index.js"></script>	
+    <style type="text/css">
+    
+    /**
+     * Default background slider config
+     */
+    .x-slider-fill{
+        margin:0.925em;
+        position:absolute;
+        height:0.8em;
+        -webkit-border-radius:0.4em;
+        border-radius:0.4em;
+        margin-top:0.75em !important;
+        background-image:-webkit-gradient(linear, left top ,left bottom, from(#0A3A86), color-stop(.5, #4C8DE7), color-stop(.95, #6BABF5), to(#0A3A86));
+        z-index:1 ;
+    }
+    
+   
+    /**
+     * To change background fill color when thumb is moved or value is set
+     */
+   .hotred .x-slider-fill{
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #FDA397), color-stop(2%, #FB3D23), color-stop(100%, #D41C03));
+        background-image: linear-gradient(#FDA397,#FB3D23 2%,#D41C03);
+    }
+    
+    /**
+     * To change default background color of slider
+     */
+    .hotred .x-input-slider::after{
+        background-color: #62A155;
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #BCD9B6), color-stop(2%, #76B06A), color-stop(100%, #548A49));
+        background-image: linear-gradient(#BCD9B6,#76B06A 2%,#548A49);
+    }
+    .x-draggable {
+        z-index:2;
+    }
+    </style>
+</head>
+<body></body>
+</html>
