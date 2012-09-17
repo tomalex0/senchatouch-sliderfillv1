@@ -1019,7 +1019,7 @@ header h1 {
 }
 #banner {
   border:none;
-  background: #007EDF;
+  background: #39C;
   /*background: url(../images/background.png) #4276B6;*/
 }
 #banner .fork, #banner ul li a.button  {
@@ -1039,4 +1039,8 @@ body{
 }
 #banner .button:hover strong {
   color:white;
+}
+h4{
+  color:#39C;
+}
 }
