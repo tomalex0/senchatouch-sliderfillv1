@@ -6,7 +6,7 @@
     <title>Senchatouch-v1-sliderfill by tomalex0</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="jquery.min.js"></script>
     <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -39,15 +39,54 @@
         <ul></ul>
       </nav>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h3>Description</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Plugin adds a background fill effect for  slider when slider thumb is moved or value is changed.</p>
+<h3>How to use ?</h3>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h4>Plugin used with standalone component</h4>
+<pre><code>new Ext.form.Slider({
+      renderTo: 'someid',
+	    value: 5,
+	    label: 'Volume',
+	    minValue: 0,
+	    plugins: [
+	        {
+	            ptype: 'sliderfill'
+	        }
+	    ],
+	    maxValue: 10
+});
 </code></pre>
-
+<h4>Default css used for fill, change "background-image" property to get desired style</h4>
+<pre><code> .x-slider-fill{
+        margin:0.925em;
+        position:absolute;
+        height:0.8em;
+        -webkit-border-radius:0.4em;
+        border-radius:0.4em;
+        margin-top:0.75em !important;
+        background-image:-webkit-gradient(linear, left top ,left bottom, from(#0A3A86), color-stop(.5, #4C8DE7), color-stop(.95, #6BABF5), to(#0A3A86));
+        z-index:1 ;
+    }</code></pre>
+<h4>Want to add custom background color ?</h4>
+<pre><code>new Ext.form.Slider({
+	    renderTo: 'someid',
+	    value: 5,
+	    cls : 'hotred',
+	    label: 'Volume',
+	    minValue: 0,
+	    plugins: [
+	        {
+	            ptype: 'sliderfill'
+	        }
+	    ],
+	    maxValue: 10
+});</code></pre>
+<pre><code>.hotred .x-slider-fill{
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #FDA397), color-stop(2%, #FB3D23), color-stop(100%, #D41C03));
+    background-image: linear-gradient(#FDA397,#FB3D23 2%,#D41C03);
+}</code></pre>
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
 
 <h3>Designer Templates</h3>
