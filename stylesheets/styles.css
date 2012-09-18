@@ -1043,4 +1043,9 @@ body{
 h4{
   color:#39C;
 }
+.democls{
+  margin-bottom:5px;
+}
+.wrapper a{
+  font-weight:bold;
 }
