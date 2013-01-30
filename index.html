@@ -1,70 +1,17 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Senchatouch-v1-sliderfill by tomalex0</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-  </head>
-  <body>
-
-      <header>
-        <h1>Senchatouch-v1-sliderfill</h1>
-        <p>Implementing a background  color fill when  thumb is dragged or value is set.</p>
-      </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-        <a href="https://github.com/tomalex0/SenchaTouch-v1-SliderFill" class="button fork"><strong>View On GitHub</strong></a>
-        <a href="demo.html" target="_blank" class="button fork demo"><strong>View Demo</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/tomalex0/SenchaTouch-v1-SliderFill/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/tomalex0/SenchaTouch-v1-SliderFill/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul>
-          <li><a href="#description">Description</a></li>
-          <li><a href="#howtouse">How to use</a></li>
-        </ul>
-      </nav>
-      <section>
-        <h3 id="description">Description</h3>
-
-<p class="democls">Plugin adds a background fill effect for  slider when slider thumb is moved or value is changed.
-</p>
-<p><a href="demo.html" target="_blank" style="font-weight:bold;">View Demo</a></p>
-<h3 id="howtouse">How to use ?</h3>
-
-<h4>Plugin used with standalone component</h4>
-<pre><code>new Ext.form.Slider({
-      renderTo: 'someid',
-	    value: 5,
-	    label: 'Volume',
-	    minValue: 0,
-	    plugins: [
-	        {
-	            ptype: 'sliderfill'
-	        }
-	    ],
-	    maxValue: 10
-});
-</code></pre>
-<h4>Default css used for fill, change "background-image" property to get desired style</h4>
-<pre><code> .x-slider-fill{
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">	
+    <title>Forms</title>
+    <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-1.1.1/resources/css/sencha-touch.css" type="text/css">
+    <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-1.1.1/sencha-touch-debug.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/tomalex0/SenchaTouch-v1-SliderFill/master/index.js"></script>	
+    <style type="text/css">
+    
+    /**
+     * Default background slider config
+     */
+    .x-slider-fill{
         margin:0.925em;
         position:absolute;
         height:0.8em;
@@ -73,33 +20,43 @@
         margin-top:0.75em !important;
         background-image:-webkit-gradient(linear, left top ,left bottom, from(#0A3A86), color-stop(.5, #4C8DE7), color-stop(.95, #6BABF5), to(#0A3A86));
         z-index:1 ;
-    }</code></pre>
-<h4>Want to add custom background color ?</h4>
-<pre><code>new Ext.form.Slider({
-	    renderTo: 'someid',
-	    value: 5,
-	    cls : 'hotred',
-	    label: 'Volume',
-	    minValue: 0,
-	    plugins: [
-	        {
-	            ptype: 'sliderfill'
-	        }
-	    ],
-	    maxValue: 10
-});</code></pre>
-<pre><code>.hotred .x-slider-fill{
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #FDA397), color-stop(2%, #FB3D23), color-stop(100%, #D41C03));
-    background-image: linear-gradient(#FDA397,#FB3D23 2%,#D41C03);
-}</code></pre>
-<p>Have any issues? Add them to the github bug tracker.</p>
-      </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/tomalex0">tomalex0</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
-      </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    }
     
-  </body>
+   
+    /**
+     * To change background fill color when thumb is moved or value is set
+     */
+   .hotred .x-slider-fill{
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #FDA397), color-stop(2%, #FB3D23), color-stop(100%, #D41C03));
+        background-image: linear-gradient(#FDA397,#FB3D23 2%,#D41C03);
+    }
+    
+    /**
+     * To change default background color of slider
+     */
+    .hotred .x-input-slider::after{
+        background-color: #62A155;
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #BCD9B6), color-stop(2%, #76B06A), color-stop(100%, #548A49));
+        background-image: linear-gradient(#BCD9B6,#76B06A 2%,#548A49);
+    }
+    .x-draggable {
+        z-index:2;
+    }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-38081625-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
 </html>
